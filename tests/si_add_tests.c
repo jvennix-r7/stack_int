@@ -18,6 +18,10 @@ char *test_si_add_0_plus_0() {
   CHECK_ADD(0, 0, 0)
 }
 
+char *test_si_add_0_plus_1() {
+  CHECK_ADD(0, 1, 1)
+}
+
 char *test_si_add_255_plus_255() {
   CHECK_ADD(255, 255, 510)
 }
@@ -29,7 +33,6 @@ char *test_si_add_512_plus_12344() {
 char *test_si_add_99999999_plus_1() {
   CHECK_ADD(99999999, 1, 100000000)
 }
-
 
 char *test_si_add_1_plus_99999999() {
   CHECK_ADD(1, 99999999, 100000000)
@@ -67,10 +70,51 @@ char *test_si_add_large3() {
   )
 }
 
+char *test_si_add_and_replace() {
+  stack_int a, b;
+  si_from_str("12", 2, 10, 10, &a);
+  si_from_str("99", 2, 10, 10, &b);
+
+  si_add(&a, &b, &a);
+
+  stack_int check;
+  si_from_str("111", 3, 10, 10, &check);
+  mu_assert(si_equals(&a, &check), "Specifying an operand as +dest+ pointer should work");
+  return NULL;
+}
+
+char *test_si_add_and_replace2() {
+  stack_int a, b;
+  si_from_str("1", 1, 10, 10, &a);
+  si_from_str("92183781293719", 14, 10, 10, &b);
+
+  si_add(&a, &b, &a);
+
+  stack_int check;
+  si_from_str("92183781293720", 14, 10, 10, &check);
+  mu_assert(si_equals(&a, &check), "Specifying an operand as +dest+ pointer should work");
+  return NULL;
+}
+
+char *test_si_add_and_replace3() {
+  stack_int a, b;
+  si_from_str("1", 1, 10, 10, &b);
+  si_from_str("92183781293719", 14, 10, 10, &a);
+
+  si_add(&a, &b, &a);
+
+  stack_int check;
+  si_from_str("92183781293720", 14, 10, 10, &check);
+  mu_assert(si_equals(&a, &check), "Specifying an operand as +dest+ pointer should work");
+  return NULL;
+}
+
+
 char *all_tests() {
   mu_suite_start();
 
   mu_run_test(test_si_add_0_plus_0);
+  mu_run_test(test_si_add_0_plus_1);
   mu_run_test(test_si_add_255_plus_255);
   mu_run_test(test_si_add_512_plus_12344);
   mu_run_test(test_si_add_99999999_plus_1);
@@ -80,6 +124,9 @@ char *all_tests() {
   mu_run_test(test_si_add_large1);
   mu_run_test(test_si_add_large2);
   mu_run_test(test_si_add_large3);
+  mu_run_test(test_si_add_and_replace);
+  mu_run_test(test_si_add_and_replace2);
+  mu_run_test(test_si_add_and_replace3);
 
   return NULL;
 }

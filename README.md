@@ -1,6 +1,7 @@
 `stack_int` is a small, stack-based implementation of arbitrary-precision integers written in ANSI C. No dependencies are needed besides <stdint.h>. Negative integers are not supported for the moment.
 
-#### Code Examples
+#### Sample Code
+
     #include <stack_int.h>
   
     int main() {

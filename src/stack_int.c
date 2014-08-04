@@ -62,8 +62,6 @@ void si_to_str(stack_int* si, char* buf, si_len_t buflen, uint8_t ascii) {
 }
 
 void si_add(stack_int* a, stack_int* b, stack_int* ret) {
-  si_init(ret, a->radix);
-
   si_len_t     r      = SI_MAX_PRECISION-1;
   uint8_t  carry      = 0;
   si_len_t width      = (a->width > b->width) ? a->width : b->width;
@@ -84,12 +82,11 @@ void si_add(stack_int* a, stack_int* b, stack_int* ret) {
     r--;
   }
 
+  ret->radix = a->radix;
   ret->width = new_width;
 }
 
 void si_sub(stack_int* a, stack_int* b, stack_int* ret) {
-  si_init(ret, a->radix);
-
   si_len_t r          = SI_MAX_PRECISION-1;
   uint8_t  carry      = 0;
   si_len_t width      = (a->width > b->width) ? a->width : b->width;
@@ -117,7 +114,37 @@ void si_sub(stack_int* a, stack_int* b, stack_int* ret) {
     r--;
   }
 
+  ret->radix = a->radix;
   ret->width = new_width;
+}
+
+void si_mult(stack_int* a, stack_int* b, stack_int* ret) {
+  stack_int one, i;
+
+  si_from_str("1", 1, 10, a->radix, &one);
+  si_init(&i, a->radix);
+  si_init(ret, a->radix);
+
+  while (si_lt(&i, b)) {
+    si_add(ret, a, ret);
+    si_add(&i, &one, &i);
+  }
+}
+
+uint8_t si_lt(stack_int* a, stack_int *b) {
+  if (a->width < b-> width) return 1;
+  if (a->width > b-> width) return 0;
+  if (a->width == 0 && b->width == 0) return 0;
+
+  for (si_len_t i = 0; i < a->width; i++) {
+    if (si_digit_at(a, i) > si_digit_at(b, i)) {
+      return 0;
+    } else if (si_digit_at(a, i) < si_digit_at(b, i)) {
+      return 1;
+    }
+  }
+
+  return 0;
 }
 
 uint8_t si_equals(stack_int* a, stack_int* b) {
