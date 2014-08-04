@@ -90,20 +90,34 @@ void si_add(stack_int* a, stack_int* b, stack_int* ret) {
 void si_sub(stack_int* a, stack_int* b, stack_int* ret) {
   si_init(ret, a->radix);
 
-  si_len_t     r = SI_MAX_PRECISION-1;
-  uint8_t  carry = 0;
-  si_len_t width = a->width;
+  si_len_t r          = SI_MAX_PRECISION-1;
+  uint8_t  carry      = 0;
+  si_len_t width      = (a->width > b->width) ? a->width : b->width;
+  si_len_t i          = 0;
+  si_len_t new_width  = 0;
 
-  do {
-    si_double_digit_t n = a->digits[r] - b->digits[r] - carry;
-    ret->digits[r]      = n % a->radix;
+  while (r > SI_MAX_PRECISION-width-2 && i < SI_MAX_PRECISION) {
+    si_digit_t a_ = (i < a->width) ? a->digits[r] : 0;
+    si_digit_t b_ = (i < b->width) ? b->digits[r] : 0;
+    si_double_digit_t n;
 
-    if (n > a->radix) {
-      carry = 1;
-    } else {
+    if (a_ - carry >= b_) {
+      n = a_ - b_ - carry;
       carry = 0;
+    } else { // we have to borrow from left
+      n = ((si_double_digit_t)(a->radix) + a_ - carry) - b_;
+      carry = 1;
     }
-  } while (r-- > SI_MAX_PRECISION-width);
+
+    ret->digits[r] = n;
+
+    new_width = (ret->digits[r] != 0) ? i+1 : new_width;
+
+    i++;
+    r--;
+  }
+
+  ret->width = new_width;
 }
 
 uint8_t si_equals(stack_int* a, stack_int* b) {

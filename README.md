@@ -21,7 +21,7 @@
 
 #### Building
 
-The entire implementation is found in the `stack_int.c` file. If you add a new function, make sure you add a matching test file inside of the `tests/` directory. To build a library containing, the `si_*` functions, you can run:
+The entire implementation is found in the `stack_int.c` file. If you add a new function, make sure you add a matching test file inside of the `tests/` directory. To build a library containing the `si_*` functions, you can run:
 
     $ make build/libstack_int.a
 
