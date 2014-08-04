@@ -35,5 +35,6 @@ void si_sub(stack_int* a, stack_int* b, stack_int* ret);
 // Utility/helper functions
 si_digit_t si_digit_at(stack_int* si, si_len_t left_offset);
 uint8_t    si_is_zero(stack_int* si);
+uint8_t    si_equals(stack_int* a, stack_int* b);
 
 #endif // STACK_INT_H

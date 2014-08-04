@@ -64,22 +64,27 @@ void si_to_str(stack_int* si, char* buf, si_len_t buflen, uint8_t ascii) {
 void si_add(stack_int* a, stack_int* b, stack_int* ret) {
   si_init(ret, a->radix);
 
-  si_len_t     r = SI_MAX_PRECISION-1;
-  uint8_t  carry = 0;
+  si_len_t     r      = SI_MAX_PRECISION-1;
+  uint8_t  carry      = 0;
+  si_len_t width      = (a->width > b->width) ? a->width : b->width;
+  si_len_t i          = 0;
+  si_len_t new_width  = 0;
 
-  si_len_t width = a->width;
-  if (width < b->width) width = b->width;
+  while (r > SI_MAX_PRECISION-width-2 && i < SI_MAX_PRECISION) {
+    si_digit_t a_ = (i < a->width) ? a->digits[r] : 0;
+    si_digit_t b_ = (i < b->width) ? b->digits[r] : 0;
 
-  do {
-    si_double_digit_t n = a->digits[r] + b->digits[r] + carry;
+    si_double_digit_t n = a_ + b_ + carry;
     ret->digits[r]      = n % a->radix;
 
-    if (n > a->radix) {
-      carry = 1;
-    } else {
-      carry = 0;
-    }
-  } while (r-- > SI_MAX_PRECISION-width);
+    carry = (n >= a->radix) ? 1 : 0;
+    new_width = (ret->digits[r] != 0) ? i+1 : new_width;
+
+    i++;
+    r--;
+  }
+
+  ret->width = new_width;
 }
 
 void si_sub(stack_int* a, stack_int* b, stack_int* ret) {
@@ -99,6 +104,16 @@ void si_sub(stack_int* a, stack_int* b, stack_int* ret) {
       carry = 0;
     }
   } while (r-- > SI_MAX_PRECISION-width);
+}
+
+uint8_t si_equals(stack_int* a, stack_int* b) {
+  if (a->width != b->width) return 0;
+  for (si_len_t i = 0; i < a->width; i++) {
+    if (si_digit_at(a, i) != si_digit_at(b, i)) {
+      return 0;
+    }
+  }
+  return 1;
 }
 
 si_digit_t si_digit_at(stack_int* si, si_len_t left_offset) {
