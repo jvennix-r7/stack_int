@@ -1,5 +1,5 @@
 #include "minunit.h"
-#include "../src/stack_int.h"
+#include <stack_int.h>
 #include <string.h>
 
 #define CHECK_SUB(X,Y,Z) \

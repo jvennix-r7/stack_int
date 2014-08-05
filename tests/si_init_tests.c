@@ -1,5 +1,5 @@
 #include "minunit.h"
-#include "../src/stack_int.h"
+#include <stack_int.h>
 
 char *test_si_init_width_and_radix() {
   stack_int si;

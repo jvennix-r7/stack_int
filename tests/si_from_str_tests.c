@@ -1,6 +1,6 @@
 #include "minunit.h"
 #include <string.h>
-#include "../src/stack_int.h"
+#include <stack_int.h>
 
 char *test_si_from_ascii_zero() {
   stack_int si;
