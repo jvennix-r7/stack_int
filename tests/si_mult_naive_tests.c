@@ -22,6 +22,14 @@ char *test_si_mult_naive_1_times_1() {
   CHECK_TIMES_NAIVE(1, 1, 1)
 }
 
+char *test_si_mult_naive_1_times_0() {
+  CHECK_TIMES_NAIVE(1, 0, 0)
+}
+
+char *test_si_mult_naive_0_times_1() {
+  CHECK_TIMES_NAIVE(0, 1, 0)
+}
+
 char *test_si_mult_naive_255_times_255() {
   CHECK_TIMES_NAIVE(255, 255, 65025)
 }
@@ -77,6 +85,8 @@ char *all_tests() {
 
   mu_run_test(test_si_mult_naive_0_times_0);
   mu_run_test(test_si_mult_naive_1_times_1);
+  mu_run_test(test_si_mult_naive_1_times_0);
+  mu_run_test(test_si_mult_naive_0_times_1);
   mu_run_test(test_si_mult_naive_255_times_255);
   mu_run_test(test_si_mult_naive_512_times_12344);
   mu_run_test(test_si_mult_naive_99999999_times_1208);

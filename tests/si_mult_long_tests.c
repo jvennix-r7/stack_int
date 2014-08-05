@@ -22,6 +22,14 @@ char *test_si_mult_long_1_times_1() {
   CHECK_TIMES_LONG(1, 1, 1)
 }
 
+char *test_si_mult_long_1_times_0() {
+  CHECK_TIMES_LONG(1, 0, 0)
+}
+
+char *test_si_mult_long_0_times_1() {
+  CHECK_TIMES_LONG(0, 1, 0)
+}
+
 char *test_si_mult_long_15_times_5() {
   CHECK_TIMES_LONG(15, 5, 75)
 }
@@ -97,6 +105,8 @@ char *all_tests() {
 
   mu_run_test(test_si_mult_long_0_times_0);
   mu_run_test(test_si_mult_long_1_times_1);
+  mu_run_test(test_si_mult_long_1_times_0);
+  mu_run_test(test_si_mult_long_0_times_1);
   mu_run_test(test_si_mult_long_15_times_5);
   mu_run_test(test_si_mult_long_255_times_255);
   mu_run_test(test_si_mult_long_512_times_12344);
