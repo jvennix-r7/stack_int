@@ -20,12 +20,12 @@ typedef struct {
 // Creation and formatting functions
 void si_init(stack_int* si, si_digit_t radix);
 void si_copy(stack_int* a, stack_int* b);
-void si_to_str(stack_int* si, char* buf, si_len_t buflen, uint8_t ascii);
-void si_from_str(char* str,
-                 si_len_t len,
-                 si_digit_t inradix,
-                 si_digit_t outradix,
-                 stack_int* si);
+void si_to_ascii(stack_int* si, char* buf, si_len_t buflen);
+void si_from_ascii(char* str,
+                   si_len_t len,
+                   si_digit_t inradix,
+                   si_digit_t outradix,
+                   stack_int* si);
 
 // Mathematical functions
 void si_add(stack_int* a, stack_int* b, stack_int* ret);

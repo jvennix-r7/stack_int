@@ -7,13 +7,13 @@
     int main() {
       stack_int a, b, c;
 
-      si_from_str("2000000", 7, 10, 10, &a);
-      si_from_str("3000000", 7, 10, 10, &b);
+      si_from_ascii("2000000", 7, 10, 10, &a);
+      si_from_ascii("3000000", 7, 10, 10, &b);
 
       si_add(&a, &b, &c);
 
       char buf[128];
-      si_to_str(&c, buf, 128);
+      si_to_ascii(&c, buf, 128);
 
       printf("a = %s\n", buf);
 

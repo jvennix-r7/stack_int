@@ -4,14 +4,14 @@
 
 #define CHECK_ADD(X,Y,Z) \
   stack_int a, b, c, check; \
-  si_from_str("" #X "", strlen("" #X ""), 10, 10, &a); \
-  si_from_str("" #Y "", strlen("" #Y ""), 10, 10, &b); \
-  si_from_str("" #Z "", strlen("" #Z ""), 10, 10, &check); \
+  si_from_ascii("" #X "", strlen("" #X ""), 10, 10, &a); \
+  si_from_ascii("" #Y "", strlen("" #Y ""), 10, 10, &b); \
+  si_from_ascii("" #Z "", strlen("" #Z ""), 10, 10, &check); \
   si_add(&a, &b, &c); \
   mu_assert(si_equals(&c, &check), "" #X " + " #Y " = " #Z ""); \
   char out[1024]; \
-  si_to_str(&c, out, 1024, 1); \
-  mu_assert(!strcmp(out, "" #Z ""), "si_to_str(" #X " + " #Y ") = \"" #Z "\""); \
+  si_to_ascii(&c, out, 1024); \
+  mu_assert(!strcmp(out, "" #Z ""), "si_to_ascii(" #X " + " #Y ") = \"" #Z "\""); \
   return NULL;
 
 char *test_si_add_0_plus_0() {
@@ -72,39 +72,39 @@ char *test_si_add_large3() {
 
 char *test_si_add_and_replace() {
   stack_int a, b;
-  si_from_str("12", 2, 10, 10, &a);
-  si_from_str("99", 2, 10, 10, &b);
+  si_from_ascii("12", 2, 10, 10, &a);
+  si_from_ascii("99", 2, 10, 10, &b);
 
   si_add(&a, &b, &a);
 
   stack_int check;
-  si_from_str("111", 3, 10, 10, &check);
+  si_from_ascii("111", 3, 10, 10, &check);
   mu_assert(si_equals(&a, &check), "Specifying an operand as +dest+ pointer should work");
   return NULL;
 }
 
 char *test_si_add_and_replace2() {
   stack_int a, b;
-  si_from_str("1", 1, 10, 10, &a);
-  si_from_str("92183781293719", 14, 10, 10, &b);
+  si_from_ascii("1", 1, 10, 10, &a);
+  si_from_ascii("92183781293719", 14, 10, 10, &b);
 
   si_add(&a, &b, &a);
 
   stack_int check;
-  si_from_str("92183781293720", 14, 10, 10, &check);
+  si_from_ascii("92183781293720", 14, 10, 10, &check);
   mu_assert(si_equals(&a, &check), "Specifying an operand as +dest+ pointer should work");
   return NULL;
 }
 
 char *test_si_add_and_replace3() {
   stack_int a, b;
-  si_from_str("1", 1, 10, 10, &b);
-  si_from_str("92183781293719", 14, 10, 10, &a);
+  si_from_ascii("1", 1, 10, 10, &b);
+  si_from_ascii("92183781293719", 14, 10, 10, &a);
 
   si_add(&a, &b, &a);
 
   stack_int check;
-  si_from_str("92183781293720", 14, 10, 10, &check);
+  si_from_ascii("92183781293720", 14, 10, 10, &check);
   mu_assert(si_equals(&a, &check), "Specifying an operand as +dest+ pointer should work");
   return NULL;
 }

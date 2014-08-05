@@ -4,14 +4,14 @@
 
 #define CHECK_SUB(X,Y,Z) \
   stack_int a, b, c, check; \
-  si_from_str("" #X "", strlen("" #X ""), 10, 10, &a); \
-  si_from_str("" #Y "", strlen("" #Y ""), 10, 10, &b); \
-  si_from_str("" #Z "", strlen("" #Z ""), 10, 10, &check); \
+  si_from_ascii("" #X "", strlen("" #X ""), 10, 10, &a); \
+  si_from_ascii("" #Y "", strlen("" #Y ""), 10, 10, &b); \
+  si_from_ascii("" #Z "", strlen("" #Z ""), 10, 10, &check); \
   si_sub(&a, &b, &c); \
   mu_assert(si_equals(&c, &check), "" #X " - " #Y " = " #Z ""); \
   char out[4096]; \
-  si_to_str(&c, out, 4096, 1); \
-  mu_assert(!strcmp(out, "" #Z ""), "si_to_str(" #X " - " #Y ") = \"" #Z "\""); \
+  si_to_ascii(&c, out, 4096); \
+  mu_assert(!strcmp(out, "" #Z ""), "si_to_ascii(" #X " - " #Y ") = \"" #Z "\""); \
   return NULL;
 
 char *test_si_sub_0_minus_0() {

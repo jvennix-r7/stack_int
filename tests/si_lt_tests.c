@@ -4,8 +4,8 @@
 
 #define CHECK_LT(X,Y,Z) \
   stack_int a, b; \
-  si_from_str("" #X "", strlen("" #X ""), 10, 10, &a); \
-  si_from_str("" #Y "", strlen("" #Y ""), 10, 10, &b); \
+  si_from_ascii("" #X "", strlen("" #X ""), 10, 10, &a); \
+  si_from_ascii("" #Y "", strlen("" #Y ""), 10, 10, &b); \
   mu_assert(si_lt(&a, &b)==Z, "si_lt(" #X ", " #Y ") = " #Z ""); \
   return NULL;
 

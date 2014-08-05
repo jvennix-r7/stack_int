@@ -14,11 +14,11 @@ void si_copy(stack_int* a, stack_int* b) {
   }
 }
 
-void si_from_str(char* str,
-                 si_len_t len,
-                 si_digit_t inradix,
-                 si_digit_t outradix,
-                 stack_int* si) {
+void si_from_ascii(char* str,
+                   si_len_t len,
+                   si_digit_t inradix,
+                   si_digit_t outradix,
+                   stack_int* si) {
 
   si_init(si, outradix);
   
@@ -38,9 +38,9 @@ void si_from_str(char* str,
   si->width = width;
 }
 
-void si_to_str(stack_int* si, char* buf, si_len_t buflen, uint8_t ascii) {
+void si_to_ascii(stack_int* si, char* buf, si_len_t buflen) {
   if (si_is_zero(si)) {
-    buf[0] = (ascii) ? '0' : 0;
+    buf[0] = '0';
     buf[1] = 0;
   } else {
     for (si_len_t i = 0; i < buflen && i < si->width; i++) {
@@ -49,14 +49,12 @@ void si_to_str(stack_int* si, char* buf, si_len_t buflen, uint8_t ascii) {
     buf[si->width] = 0;
   }
 
-  // do an ascii encoding if we fit in printable range
-  if (ascii) {
-    for (si_len_t i = 0; i < buflen && i < si->width; i++) {
-      if (buf[i] < 10) {
-        buf[i] += '0';
-      } else {
-        buf[i] = buf[i] - 10 + 'a';
-      }
+  // ascii encode all the things
+  for (si_len_t i = 0; i < buflen && i < si->width; i++) {
+    if (buf[i] < 10) {
+      buf[i] += '0';
+    } else {
+      buf[i] = buf[i] - 10 + 'a';
     }
   }
 }
@@ -121,7 +119,7 @@ void si_sub(stack_int* a, stack_int* b, stack_int* ret) {
 void si_mult(stack_int* a, stack_int* b, stack_int* ret) {
   stack_int one, i;
 
-  si_from_str("1", 1, 10, a->radix, &one);
+  si_from_ascii("1", 1, 10, a->radix, &one);
   si_init(&i, a->radix);
   si_init(ret, a->radix);
 
