@@ -1,5 +1,5 @@
 language: c
-script: make build/libstack_int.a && make tests
+script: make all
 compiler:
   - clang
   - gcc
