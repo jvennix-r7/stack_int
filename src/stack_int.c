@@ -130,7 +130,13 @@ void si_mult_naive(stack_int* a, stack_int* b, stack_int* ret) {
 }
 
 void si_mult_long(stack_int* a, stack_int* b, stack_int* ret) {
-  // Ensure b always has at most the same number of digits as a
+  // Handle the zero case
+  if (a->width == 0 || b->width == 0) {
+    si_init(ret, a->radix);
+    return;    
+  }
+
+  // Ensure b always never has more digits than a
   if (a->width < b->width) {
     stack_int* tmp = b;
     b = a;
@@ -156,6 +162,7 @@ void si_mult_long(stack_int* a, stack_int* b, stack_int* ret) {
   }
 
   carry = 0;
+
   for (i = 0; i < a->width*2-1; i++) {
     si_double_digit_t n = carry;
     for (si_len_t j = 0; j <= i && j < b->width; j++) {
@@ -172,8 +179,6 @@ void si_mult_long(stack_int* a, stack_int* b, stack_int* ret) {
 
   ret->radix = a->radix;
   ret->width = new_width;
-
-  char buf[128];
 }
 
 si_len_t si_log(stack_int* a, si_digit_t base) {

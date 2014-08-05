@@ -76,11 +76,27 @@ char *test_si_mult_long_large3() {
   )
 }
 
+char *test_si_mult_long_large4() {
+  CHECK_TIMES_LONG(
+    110569467545217630677584820741337597634197712591292656532227128076020777489347,
+    88244079353704979956629366105641362432959039281787651134268635074865371096067,
+    9757100868157091975602001708364155884419690465118379830264999378042195032988708135465257698692208924611711465981491926555723713787623954672499733806098249
+  )
+}
+
+char *test_si_mult_long_large5() {
+  CHECK_TIMES_LONG(
+    102321979325523452790279210201292294013153534530897938272604326312441646137687,
+    104765869792655675113281483912550967243277389440578284304710670024452031659987,
+    10719851162944596012654099064046110592980132212171133448115156155922586978436406799255779012346206058684915533911171719204634544072768347309177501770630069
+  )
+}
+
 char *all_tests() {
   mu_suite_start();
 
-  // mu_run_test(test_si_mult_long_0_times_0);
-  // mu_run_test(test_si_mult_long_1_times_1);
+  mu_run_test(test_si_mult_long_0_times_0);
+  mu_run_test(test_si_mult_long_1_times_1);
   mu_run_test(test_si_mult_long_15_times_5);
   mu_run_test(test_si_mult_long_255_times_255);
   mu_run_test(test_si_mult_long_512_times_12344);
@@ -89,6 +105,8 @@ char *all_tests() {
   mu_run_test(test_si_mult_long_large1);
   mu_run_test(test_si_mult_long_large2);
   mu_run_test(test_si_mult_long_large3);
+  mu_run_test(test_si_mult_long_large4);
+  mu_run_test(test_si_mult_long_large5);
 
   return NULL;
 }
