@@ -177,9 +177,22 @@ void si_mult_long(stack_int* a, stack_int* b, stack_int* ret) {
   ret->width = new_width;
 }
 
+void si_mult(stack_int* a, stack_int* b, stack_int* ret) {
+  si_mult_naive(a, b, ret);
+}
+
 void si_div(stack_int* n, stack_int* d, stack_int* q, stack_int* r) {
-  si_init(r, n->radix);
+  stack_int one;
+  si_from_ascii("1", 1, 10, n->radix, &one);
+  si_copy(n, r);
   si_init(q, n->radix);
+
+  if (d->width) {
+    while (si_lt(d, r) || si_equals(d, r)) {
+      si_sub(r, d, r);
+      si_add(q, &one, q);
+    }
+  }
 }
 
 si_len_t si_log(stack_int* a, si_digit_t base) {
@@ -191,9 +204,6 @@ si_len_t si_log(stack_int* a, si_digit_t base) {
   }
 }
 
-void si_mult(stack_int* a, stack_int* b, stack_int* ret) {
-  si_mult_naive(a, b, ret);
-}
 
 uint8_t si_lt(stack_int* a, stack_int *b) {
   if (a->width != b-> width)

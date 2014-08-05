@@ -11,7 +11,7 @@
   mu_assert(si_equals(&c, &check), "" #X " * " #Y " = " #Z ""); \
   char out[1024]; \
   si_to_ascii(&c, out, 1024); \
-  mu_assert(!strcmp(out, "" #Z ""), "si_to_ascii(" #X " * " #Y ") = \"" #Z "\""); \
+  mu_assert(!strcmp(out, "" #Z ""), "si_mult(" #X " * " #Y ") = \"" #Z "\""); \
   return NULL;
 
 char *test_si_mult_0_times_0() {
