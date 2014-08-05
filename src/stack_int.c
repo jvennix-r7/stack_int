@@ -130,11 +130,6 @@ void si_mult_naive(stack_int* a, stack_int* b, stack_int* ret) {
 }
 
 void si_mult_long(stack_int* a, stack_int* b, stack_int* ret) {
-  // Handle the zero case
-  if (a->width == 0 || b->width == 0) {
-    si_init(ret, a->radix);
-    return;    
-  }
 
   // Ensure b always never has more digits than a
   if (a->width < b->width) {
@@ -143,7 +138,6 @@ void si_mult_long(stack_int* a, stack_int* b, stack_int* ret) {
     a = tmp;
   }
 
-  si_len_t   r          = SI_MAX_PRECISION-1;
   si_digit_t carry      = 0;
   si_len_t   i          = 0;
   si_len_t   new_width  = 0;
@@ -163,18 +157,20 @@ void si_mult_long(stack_int* a, stack_int* b, stack_int* ret) {
 
   carry = 0;
 
-  for (i = 0; i < a->width*2-1; i++) {
-    si_double_digit_t n = carry;
-    for (si_len_t j = 0; j <= i && j < b->width; j++) {
-      if (i <= a->width+j) {
-        n += digits[j][a->width-i+j];
+  if (a->width > 0) {
+    for (i = 0; i < a->width*2-1; i++) {
+      si_double_digit_t n = carry;
+      for (si_len_t j = 0; j <= i && j < b->width; j++) {
+        if (i <= a->width+j) {
+          n += digits[j][a->width-i+j];
+        }
       }
+
+      carry = n / a->radix;
+      ret->digits[SI_MAX_PRECISION-1-i] = n % a->radix;
+
+      if (n > 0) new_width = i+1;
     }
-
-    carry = n / a->radix;
-    ret->digits[SI_MAX_PRECISION-1-i] = n % a->radix;
-
-    if (n > 0) new_width = i+1;
   }
 
   ret->radix = a->radix;
