@@ -33,7 +33,7 @@ build:
 
 # The Unit Tests
 .PHONY: tests
-tests: CFLAGS += $(TARGET) $(SO_TARGET)
+tests: CFLAGS += $(TARGET) $(SO_TARGET) $(OBJECTS)
 tests: $(TESTS)
 	sh ./tests/runtests.sh
 
