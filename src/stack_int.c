@@ -130,7 +130,51 @@ void si_mult_naive(stack_int* a, stack_int* b, stack_int* ret) {
 }
 
 void si_mult_long(stack_int* a, stack_int* b, stack_int* ret) {
+  si_len_t   r          = SI_MAX_PRECISION-1;
+  si_digit_t carry      = 0;
+  si_len_t   width      = (a->width > b->width) ? a->width : b->width;
+  si_len_t   i          = 0;
+  si_len_t   new_width  = 0;
 
+  si_digit_t digits[width][width];
+
+  while (i < a->width) {
+
+    si_len_t r2 = SI_MAX_PRECISION-1;
+    si_len_t i2 = 0;
+
+    while (i2 < b->width) {
+      si_digit_t a_ = (i < a->width) ? a->digits[r] : 0;
+      si_digit_t b_ = (i < b->width) ? b->digits[r2] : 0;
+      si_double_digit_t n = a_ * b_ + carry;
+
+      digits[i][width-i2-1] = n % a->radix;
+
+      carry = n / a->radix;
+
+      i2++;
+      r2--;
+    }
+
+    i++;
+    r--;
+  }
+
+  carry = 0;
+  for (i = 0; i < width; i++) {
+    si_double_digit_t n = carry;
+    for (si_len_t j = 0; j <= i; j++) {
+      n += digits[j][width-1-i];
+    }
+
+    carry = n / a->radix;
+    ret->digits[SI_MAX_PRECISION-1-i] = n % a->radix;
+
+    if (n > 0) new_width = i+1;
+  }
+
+  ret->radix = a->radix;
+  ret->width = new_width;
 }
 
 si_len_t si_log(stack_int* a, si_digit_t base) {

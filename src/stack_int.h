@@ -33,7 +33,7 @@ void si_add(stack_int* a, stack_int* b, stack_int* ret);
 void si_sub(stack_int* a, stack_int* b, stack_int* ret);
 
 void si_mult_naive(stack_int* a, stack_int* b, stack_int* ret);
-// void si_mult_long(stack_int* a, stack_int* b, stack_int* ret);
+void si_mult_long(stack_int* a, stack_int* b, stack_int* ret);
 
 void si_mult(stack_int* a, stack_int* b, stack_int* ret);
 
