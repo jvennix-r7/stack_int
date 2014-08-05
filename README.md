@@ -32,4 +32,4 @@ The entire implementation is found in the `stack_int.c` file. If you add a new f
 
 The simple unit test structure is taken from Zed Shaw's free book [Learn C the Hard Way](http://c.learncodethehardway.org/book/ex28.html). To run the test suite:
 
-    $ make test
+    $ make tests

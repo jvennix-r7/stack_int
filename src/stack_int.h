@@ -28,10 +28,14 @@ void si_from_ascii(char* str,
                    stack_int* si);
 
 // Mathematical functions
+si_len_t si_log(stack_int* a, si_digit_t base);
 void si_add(stack_int* a, stack_int* b, stack_int* ret);
 void si_sub(stack_int* a, stack_int* b, stack_int* ret);
-void si_mult(stack_int* a, stack_int* b, stack_int* ret);
 
+void si_mult_naive(stack_int* a, stack_int* b, stack_int* ret);
+// void si_mult_long(stack_int* a, stack_int* b, stack_int* ret);
+
+void si_mult(stack_int* a, stack_int* b, stack_int* ret);
 
 // Utility/helper functions
 si_digit_t si_digit_at(stack_int* si, si_len_t left_offset);

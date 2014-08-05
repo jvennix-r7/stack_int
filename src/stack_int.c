@@ -47,14 +47,14 @@ void si_to_ascii(stack_int* si, char* buf, si_len_t buflen) {
       buf[i] = si_digit_at(si, i);    
     }
     buf[si->width] = 0;
-  }
 
-  // ascii encode all the things
-  for (si_len_t i = 0; i < buflen && i < si->width; i++) {
-    if (buf[i] < 10) {
-      buf[i] += '0';
-    } else {
-      buf[i] = buf[i] - 10 + 'a';
+    // ascii encode all the things
+    for (si_len_t i = 0; i < buflen && i < si->width; i++) {
+      if (buf[i] < 10) {
+        buf[i] += '0';
+      } else {
+        buf[i] = buf[i] - 10 + 'a';
+      }
     }
   }
 }
@@ -116,7 +116,7 @@ void si_sub(stack_int* a, stack_int* b, stack_int* ret) {
   ret->width = new_width;
 }
 
-void si_mult(stack_int* a, stack_int* b, stack_int* ret) {
+void si_mult_naive(stack_int* a, stack_int* b, stack_int* ret) {
   stack_int one, i;
 
   si_from_ascii("1", 1, 10, a->radix, &one);
@@ -129,10 +129,26 @@ void si_mult(stack_int* a, stack_int* b, stack_int* ret) {
   }
 }
 
+void si_mult_long(stack_int* a, stack_int* b, stack_int* ret) {
+
+}
+
+si_len_t si_log(stack_int* a, si_digit_t base) {
+  if (base == a->radix) {
+    return a->width-1;
+  } else {
+    // convert and return result
+    return 0;
+  }
+}
+
+void si_mult(stack_int* a, stack_int* b, stack_int* ret) {
+  si_mult_naive(a, b, ret);
+}
+
 uint8_t si_lt(stack_int* a, stack_int *b) {
-  if (a->width < b-> width) return 1;
-  if (a->width > b-> width) return 0;
-  if (a->width == 0 && b->width == 0) return 0;
+  if (a->width != b-> width)
+    return (a->width < b-> width);
 
   for (si_len_t i = 0; i < a->width; i++) {
     if (si_digit_at(a, i) > si_digit_at(b, i)) {
