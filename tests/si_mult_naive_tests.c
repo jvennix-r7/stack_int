@@ -75,7 +75,7 @@ char *test_si_mult_naive_large3() {
 char *all_tests() {
   mu_suite_start();
 
-  // mu_run_test(test_si_mult_naive_0_times_0);
+  mu_run_test(test_si_mult_naive_0_times_0);
   mu_run_test(test_si_mult_naive_1_times_1);
   mu_run_test(test_si_mult_naive_255_times_255);
   mu_run_test(test_si_mult_naive_512_times_12344);
