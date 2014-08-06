@@ -195,6 +195,11 @@ void si_div(stack_int* n, stack_int* d, stack_int* q, stack_int* r) {
   }
 }
 
+void si_mod(stack_int* n, stack_int* d, stack_int* r) {
+  stack_int q;
+  si_div(n, d, &q, r);
+}
+
 si_len_t si_log(stack_int* a, si_digit_t base) {
   if (base == a->radix) {
     return a->width-1;
