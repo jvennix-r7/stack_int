@@ -204,7 +204,6 @@ si_len_t si_log(stack_int* a, si_digit_t base) {
   }
 }
 
-
 uint8_t si_lt(stack_int* a, stack_int *b) {
   if (a->width != b-> width)
     return (a->width < b-> width);
@@ -228,6 +227,12 @@ uint8_t si_equals(stack_int* a, stack_int* b) {
     }
   }
   return 1;
+}
+
+void si_print(stack_int* si) {
+  char buf[1024];
+  si_to_ascii(si, buf, 1024);
+  printf("%s\n", buf);
 }
 
 si_digit_t si_digit_at(stack_int* si, si_len_t left_offset) {

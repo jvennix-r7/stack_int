@@ -43,5 +43,6 @@ si_digit_t si_digit_at(stack_int* si, si_len_t left_offset);
 uint8_t    si_is_zero(stack_int* si);
 uint8_t    si_equals(stack_int* a, stack_int* b);
 uint8_t    si_lt(stack_int* a, stack_int *b);
+void       si_print(stack_int* si);
 
 #endif // STACK_INT_H
